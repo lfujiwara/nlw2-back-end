@@ -7,6 +7,9 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { JWT_SECRET, JWT_EXPIRE_TIME } from './constants';
 import { AuthController } from './auth.controller';
 import { JwtStrategy } from './strategies/jwt.strategy';
+import { UsersService } from 'src/users/users.service';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { User } from 'src/users/models/user.entity';
 
 @Module({
   imports: [
@@ -16,8 +19,9 @@ import { JwtStrategy } from './strategies/jwt.strategy';
       secret: JWT_SECRET,
       signOptions: { expiresIn: JWT_EXPIRE_TIME },
     }),
+    TypeOrmModule.forFeature([User]),
   ],
-  providers: [AuthService, LocalStrategy, JwtStrategy],
+  providers: [AuthService, LocalStrategy, JwtStrategy, UsersService],
   exports: [AuthService],
   controllers: [AuthController],
 })

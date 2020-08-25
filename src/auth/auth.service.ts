@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { compare } from 'bcrypt';
 import { UsersService } from '../users/users.service';
 import { User } from '../users/models/user.entity';
 
@@ -15,7 +16,7 @@ export class AuthService {
     password: string,
   ): Promise<User> {
     const user = await this.usersService.findOneByUsername(username);
-    if (user && user.password === password) {
+    if (user && (await compare(password, user.password))) {
       const result = { ...user };
       delete result.password;
       return result;

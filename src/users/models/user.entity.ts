@@ -1,4 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+  Unique,
+} from 'typeorm';
 
 @Entity()
 export class User {
@@ -11,12 +18,21 @@ export class User {
   @Column()
   lastName: string;
 
-  @Column()
+  @Column({ name: 'username' })
   username: string;
 
   @Column()
   password: string;
 
-  @Column()
+  @Column({ name: 'email' })
   email: string;
+
+  @Column({ default: new Date(0) })
+  lastLogin: Date;
+
+  @UpdateDateColumn()
+  lastModified: Date;
+
+  @DeleteDateColumn()
+  deleted: Date;
 }
