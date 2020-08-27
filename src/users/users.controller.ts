@@ -37,6 +37,11 @@ export class UsersController {
 
   @Get('check-email/:email')
   async checkEmail(@Param() params: { email: string }) {
-    return this.usersService.checkEmailAvailability(params.email);
+    if (!(await this.usersService.checkEmailAvailability(params.email))) {
+      throw new ConflictException({
+        statusCode: 409,
+        message: 'Email already registered',
+      });
+    }
   }
 }

@@ -10,6 +10,7 @@ import { JwtStrategy } from './strategies/jwt.strategy';
 import { UsersService } from 'src/users/users.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/users/models/user.entity';
+import { WeeklyTimeWindow } from 'src/users/models/weekly-time-window.entity';
 
 @Module({
   imports: [
@@ -19,7 +20,7 @@ import { User } from 'src/users/models/user.entity';
       secret: JWT_SECRET,
       signOptions: { expiresIn: JWT_EXPIRE_TIME },
     }),
-    TypeOrmModule.forFeature([User]),
+    TypeOrmModule.forFeature([User, WeeklyTimeWindow]),
   ],
   providers: [AuthService, LocalStrategy, JwtStrategy, UsersService],
   exports: [AuthService],
